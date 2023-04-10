@@ -2,6 +2,7 @@ const { default: mongoose } = require('mongoose');
 const _ = require('underscore');
 
 const setName = (name) => _.escape(name).trim();
+const setSkill = (skill) => _.escape(skill).trim();
 
 const DomoSchema = new mongoose.Schema({
   name: {
@@ -9,6 +10,12 @@ const DomoSchema = new mongoose.Schema({
     required: true,
     trim: true,
     set: setName,
+  },
+  skill: {
+    type: String,
+    required: true,
+    trim: true,
+    set: setSkill,
   },
   age: {
     type: Number,
@@ -29,6 +36,7 @@ const DomoSchema = new mongoose.Schema({
 DomoSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
+  skill: doc.skill, 
 });
 
 const DomoModel = mongoose.model('Domo', DomoSchema);

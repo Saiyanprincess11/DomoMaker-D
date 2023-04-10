@@ -79,14 +79,11 @@ const SignupWindow = (props) => {
             <label htmlFor="pass">Password:</label>
             <input type="password" id="pass2" name="pass2" placeholder="retype password"/>
             <input type="submit" className="formSubmit" value="Sign up" />
-
-
         </form>
     );
 };
 
 //--- Event Handlers ----
-
 const init = () => {
     const loginButton = document.getElementById('loginButton'); 
     const signupButton = document.getElementById('signupButton'); 

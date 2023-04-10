@@ -10,13 +10,14 @@ const handleDomo = (e) => {
 
     const name = e.target.querySelector('#domoName').value; 
     const age = e.target.querySelector('#domoAge').value; 
+    const skill = e.target.querySelector('#domoSkill').value; 
 
-    if(!name || !age){
+    if(!name || !age || !skill){
         helper.handleError('All fields are required!'); 
         return false; 
     }
 
-    helper.sendPost(e.target.action, {name, age}, loadDomosFromServer); 
+    helper.sendPost(e.target.action, {name, age, skill}, loadDomosFromServer); 
 
     return false; 
 }
@@ -34,6 +35,8 @@ const DomoForm = (props) => {
         >
             <label htmlFor="name">Name: </label>
             <input type="text" name="name" placeholder="Domo Name" id="domoName" />
+            <label htmlFor="skill">Skill: </label>
+            <input type="text" name="skill" placeholder="Domo Skill" id="domoSkill" />
             <label htmlFor="age">Age: </label>
             <input type="number" min="0" name="age" id="domoAge" />
             <input type="submit" value="Make Domo" className="makeDomoSubmit" />
@@ -58,6 +61,7 @@ const DomoList = (props) => {
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="domoName">Name: {domo.name}</h3>
                 <h3 className="domoAge">Age: {domo.age}</h3>
+                <h3 className="domoSkill">Skill: {domo.skill}</h3>
             </div>
         ); 
     });
@@ -68,6 +72,7 @@ const DomoList = (props) => {
         </div>
     );
 }
+
 
 //Loads list of domos from server 
 const loadDomosFromServer = async () => {
