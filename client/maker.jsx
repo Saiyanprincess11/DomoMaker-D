@@ -34,11 +34,11 @@ const DomoForm = (props) => {
         onSubmit={handleDomo}
         >
             <label htmlFor="name">Name: </label>
-            <input type="text" name="name" placeholder="Domo Name" id="domoName" />
+            <input id="domoName" type="text" name="name" placeholder="Domo Name" />
             <label htmlFor="skill">Skill: </label>
-            <input type="text" name="skill" placeholder="Domo Skill" id="domoSkill" />
+            <input id="domoSkill" type="text" name="skill" placeholder="Domo Skill" />
             <label htmlFor="age">Age: </label>
-            <input type="number" min="0" name="age" id="domoAge" />
+            <input id="domoAge" type="number" min="0" name="age" />
             <input type="submit" value="Make Domo" className="makeDomoSubmit" />
         </form>
     ); 
@@ -60,8 +60,8 @@ const DomoList = (props) => {
             <div className="domo" key={domo._id}>
                 <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace" />
                 <h3 className="domoName">Name: {domo.name}</h3>
-                <h3 className="domoAge">Age: {domo.age}</h3>
                 <h3 className="domoSkill">Skill: {domo.skill}</h3>
+                <h3 className="domoAge">Age: {domo.age}</h3>
             </div>
         ); 
     });
@@ -72,7 +72,6 @@ const DomoList = (props) => {
         </div>
     );
 }
-
 
 //Loads list of domos from server 
 const loadDomosFromServer = async () => {
