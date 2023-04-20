@@ -4,6 +4,8 @@ const { Account } = models;
 
 const loginPage = (req, res) => res.render('login');
 
+const homePage = (req, res) => res.render('home'); 
+
 const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
@@ -63,6 +65,7 @@ const signup = async (req, res) => {
 
 module.exports = {
   loginPage,
+  homePage,
   login,
   logout,
   signup,

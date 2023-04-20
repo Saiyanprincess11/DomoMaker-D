@@ -1,0 +1,46 @@
+
+*{
+    background-color: black;
+    color: white;
+}
+.navbar {
+    width: 100%;
+    background-color: #7C6CFE;
+    overflow: auto;
+}
+
+/* Navbar links */
+.navbar a {
+  float: left;
+  text-align: center;
+  padding: 12px;
+  color: black;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.navbar a:hover {
+  background-color: #4DA1F8;
+}
+
+.active {
+  background-color: #4DA1F8;
+}
+
+@media screen and (max-width: 500px) {
+  .navbar a {
+    float: none;
+    display: block;
+  }
+}
+
+/*Images*/
+#home-img{
+    width: 20%;
+    height: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+   
+}
