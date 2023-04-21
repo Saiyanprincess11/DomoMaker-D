@@ -38,6 +38,10 @@ const aboutPage = (req, res) => {
   res.render('about'); 
 }; 
 
+const contactPage = (req, res) => {
+  res.render('contact'); 
+}
+
 
 //Retrieves all user domos
 const getDomos = async (req, res) => {
@@ -55,6 +59,7 @@ const getDomos = async (req, res) => {
 module.exports = {
   makerPage,
   aboutPage, 
+  contactPage,
   makeDomo,
   getDomos, 
 };

@@ -4,53 +4,51 @@
   <title>WeJam</title>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-  <link rel="stylesheet" type="text/css" href="/assets/login-style.css"/>
+  <link rel="stylesheet" type="text/css" href="/assets/home-style.css"/>
 </head>
 <body> 
-  <!--<nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo"/></a>
-    <div class="navlink"><a id="loginButton" href="/login">Login</a></div>
-    <div class="navlink"><a id="signupButton" href="/signup">Sign up</a></div>
-  </nav>-->
-
   <!--Navbar-->
-    <nav class="navbar is-transparent">
-        <div class="navbar-brand ">
-          <a class="navbar-item" href="/login">
-            <span class="icon-text ">
-                <span class="icon">
-                  <i class="fa fa-music"></i>
-                </span>
-                <span class="is-size-5 ">WeJam</span>
+  <nav class="navbar is-transparent">
+    <div class="navbar-brand ">
+      <a class="navbar-item" href="/">
+        <span class="icon-text ">
+            <span class="icon">
+              <i class="fa fa-music"></i>
             </span>
-          </a>
-          <div class="navbar-burger" data-target="navbarExampleTransparentExample">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
+            <span class="is-size-5 ">WeJam</span>
+        </span>
+      </a>
+      <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+      <!--Navbar Items-->
+    <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div class="navbar-start">
+        <div class="navbar-item is-hoverable ">
+            <!--Login Button-->
+            <a class="navbar-item has-text-white" href="/login">
+                Login/Sign Up
+            </a>
+
+            <!--About Button-->
+            <a class="navbar-item has-text-white" href="/about">
+              About
+            </a>
+
+            <!--Contact Button-->
+            <a class="navbar-item has-text-white" href="/contact">
+              Contact Us
+            </a>
         </div>
-      
-        <div id="navbarExampleTransparentExample" class="navbar-menu">
-          <div class="navbar-start">
-            <div class="navbar-item is-hoverable ">
-                <!--Login Button-->
-                <a class="navbar-item has-text-white" href="/login">
-                    Login
-                </a>
-                <!--Signup Button
-                Doesn't work for some reason, however /login works just
-                -->
-                <a class="navbar-item has-text-white" href="/signup">
-                  Sign Up
-                </a>
-            </div>
-          </div>
-        </div>
-    </nav>
-  
- 
-    <!--Home Page Content-->
-    <div class="has-text-centered">
+      </div>
+    </div>
+  </nav>
+
+  <!--Home Page Content-->
+  <div class="has-text-centered">
         <h1 class="title has-text-white ">WeJam</h1>
         <h3 class="tagline">Create. Share. Jam</h3>
 
@@ -59,15 +57,15 @@
             <br>Good thing you found us. 
         </p>
         <img  id="home-img" src="/assets/img/homeimg.png" alt="Dog wearing headphones">
-    </div>
-
-    <!--Footer-->
-    <footer class="footer has-background-black">
+  </div>
+  <!--Footer-->
+  <footer class="footer has-background-black">
         <div class="content box has-text-centered">
             Princess-Osaani Hornage<br>Game Design and Development
         </div>
-    </footer>
+  </footer>
 
   <script src="/assets/loginBundle.js"></script>
+  <script src="/assets/appBundle.js"></script>
 </body>
 </html>

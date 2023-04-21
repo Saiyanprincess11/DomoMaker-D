@@ -53,11 +53,36 @@ const LoginWindow = (props) => {
             method="POST"
             className="mainForm"
         >
-            <label htmlFor="username">Username:</label>
-            <input type="text" id="user" name="username" placeholder="username"/>
-            <label htmlFor="pass">Password:</label>
-            <input type="password" id="pass" name="pass" placeholder="password"/>
-            <input type="submit" className="formSubmit" value="Sign in" />
+            <div class="box has-background-warning" style={{width: 600}}>
+                <div class="field has-background-warning">
+                    <label class="label has-background-warning">Username</label>
+                    <div class="control has-icons-left has-icons-right has-background-warning">
+                    <input class="input is-rounded" type="text" id="user" name="username" placeholder="Enter your username"/>
+                    <span class="icon is-small is-left has-background-warning">
+                        <i class="fa fa-user has-background-warning"></i>
+                    </span>
+                    </div>
+                </div>
+
+
+                <div class="field has-background-warning">
+                    <label class="label has-background-warning">Password</label>
+                    <div class="control has-icons-left has-icons-right has-background-warning">
+                    <input class="input is-rounded" type="password" id="pass" name="pass" placeholder="Create a password"/>
+                    <span class="icon is-small is-left has-background-warning">
+                        <i class="fa fa-envelope has-background-warning"></i>
+                    </span>
+                    </div>
+                    <p class="help is-danger has-background-warning hidden" id="incorrectValsErrMsg">Username or password is invalid</p>
+                </div>
+
+                
+                <div class="is-grouped has-background-warning">
+                    <div class="control has-background-warning">
+                    <button class="button is-link is-rounded">Login</button>
+                    </div>
+                </div>
+            </div>
         </form>
     ); 
 }; 
@@ -72,13 +97,48 @@ const SignupWindow = (props) => {
         method="POST"
         onSubmit={handleSignup}
         >
-            <label htmlFor="username">Username:</label>
-            <input type="text" id="user" name="username" placeholder="username"/>
-            <label htmlFor="pass">Password:</label>
-            <input type="password" id="pass" name="pass" placeholder="password"/>
-            <label htmlFor="pass">Password:</label>
-            <input type="password" id="pass2" name="pass2" placeholder="retype password"/>
-            <input type="submit" className="formSubmit" value="Sign up" />
+            <div class="box is-align-self-center has-background-warning" style={{width: 600}}>
+                <div class="field has-background-warning">
+                    <label class="label has-background-warning">Username</label>
+                    <div class="control has-icons-left has-icons-right has-background-warning">
+                    <input class="input is-rounded" type="text" id="user" name="username" placeholder="Enter your username"/>
+                    <span class="icon is-small is-left has-text-dark">
+                        <i class="fa fa-user"></i>
+                    </span>
+                    </div>
+                    <p class="help is-danger has-background-warning hidden" id="incorrectNameErrMsg"></p>
+                </div>
+
+
+                <div class="field has-background-warning">
+                    <label class="label has-background-warning">Password</label>
+                    <div class="control has-icons-left has-icons-right has-background-warning">
+                    <input class="input is-rounded" type="password" id="pass" name="pass" placeholder="Create a password"/>
+                    <span class="icon is-small is-left has-background-warning">
+                        <i class="fa fa-envelope has-background-warning"></i>
+                    </span>
+                    </div>
+                    <p class="help is-danger has-background-warning hidden" id="incorrectValsErrMsg"></p>
+                </div>
+
+                <div class="field has-background-warning">
+                    <label class="label has-background-warning">Re-enter Password</label>
+                    <div class="control has-icons-left has-icons-right has-background-warning">
+                    <input class="input is-rounded" type="password" id="pass2" name="pass2" placeholder="Re-enter your password"/>
+                    <span class="icon is-small is-left has-background-warning">
+                        <i class="fa fa-envelope has-background-warning"></i>
+                    </span>
+                    </div>
+                    <p class="help is-danger has-background-warning hidden" id="incorrectValsErrMsg"></p>
+                </div>
+
+                
+                <div class="is-grouped has-background-warning">
+                    <div class="control has-background-warning">
+                    <button class="button is-link is-rounded">Sign Up</button>
+                    </div>
+                </div>
+            </div>
         </form>
     );
 };
@@ -92,7 +152,9 @@ const init = () => {
         e.preventDefault(); 
         ReactDOM.render(<LoginWindow />,
             document.getElementById('content')); 
-        return false; 
+
+         
+
     });
 
     signupButton.addEventListener('click', (e) => {
@@ -102,8 +164,9 @@ const init = () => {
         return false; 
     });
 
-    ReactDOM.render(<SignupWindow />,
+    ReactDOM.render(<LoginWindow />,
         document.getElementById('content')); 
+
 };
 
 window.onload = init; 

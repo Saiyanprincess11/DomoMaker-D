@@ -2,13 +2,49 @@
 <head>
   <meta charset="utf-8"/>
   <title>WeJam</title>
-  <link rel="shortcut icon" href="/assets/img/favicon.png"/>/
-  <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+  <link rel="shortcut icon" href="/assets/img/favicon.png"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/login-style.css"/>
 </head>
 <body> 
-  <nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo"/></a>
-    <div class="navlink"><a id="loginButton" href="/login">Login</a></div>
-    <div class="navlink"><a id="signupButton" href="/signup">Sign up</a></div>
+<!--Navbar-->
+  <nav class="navbar is-transparent">
+    <div class="navbar-brand ">
+      <a class="navbar-item" href="/">
+        <span class="icon-text ">
+            <span class="icon">
+              <i class="fa fa-music"></i>
+            </span>
+            <span class="is-size-5 ">WeJam</span>
+        </span>
+      </a>
+      <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <div id="navbarExampleTransparentExample" class="navbar-menu">
+      <div class="navbar-start">
+        <div class="navbar-item is-hoverable ">
+            <a id="loginButton" class="navbar-item has-text-white navlink" href="/login">
+                Login
+            </a>
+            <a id="signupButton" class="navbar-item has-text-white navlink" href="/signup">
+                Sign Up
+            </a>
+
+            <a class="navbar-item has-text-white" href="/about">
+              About
+            </a>
+
+            <a class="navbar-item has-text-white" href="/contact">
+              Contact Us
+            </a>
+        </div>
+      </div>
+    </div>
   </nav>
   
   <section id="content">
@@ -20,6 +56,40 @@
     <h3><span id="errorMessage"></span></h3>
     <img id="domo" src="assets/img/domo.png" alt="domo"/>
   </div>
+
+<!--<div class="box has-background-warning" style="width: 40%;">
+  Username Field-
+  <div class="field has-background-warning">
+    <label class="label has-background-warning">Username</label>
+    <div class="control has-icons-left has-icons-right has-background-warning">
+      <input class="input" type="text" placeholder="Enter your username">
+      <span class="icon is-small is-left has-background-warning">
+        <i class="fa fa-user has-background-warning"></i>
+      </span>
+    </div>
+    <p class="help is-success has-background-warning">This username is available</p>
+  </div>
+
+
+  <div class="field has-background-warning">
+    <label class="label has-background-warning">Password</label>
+    <div class="control has-icons-left has-icons-right has-background-warning">
+      <input class="input" type="text" placeholder="Create a password">
+      <span class="icon is-small is-left has-background-warning">
+        <i class="fa fa-envelope has-background-warning"></i>
+      </span>
+    </div>
+    <p class="help is-danger has-background-warning">This email is invalid</p>
+  </div>
+
+  
+  <div class="is-grouped has-background-warning">
+    <div class="control has-background-warning">
+      <button class="button is-link is-rounded">Login</button>
+    </div>
+  </div>  -->
+
+</div>
   <script src="/assets/loginBundle.js"></script>
 </body>
 </html>
