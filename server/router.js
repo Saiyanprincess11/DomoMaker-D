@@ -5,7 +5,6 @@ const mid = require('./middleware');
 const router = (app) => {
   // Middleware fires in order and if it passes, moves to the next function
   // If criteria isn't met, loads different page and breaks flow
-  app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
   app.get('/getPlaylists', mid.requiresLogin, controllers.Playlist.getPlaylists);
   // app.get('/getSongs', mid.requiresLogin, controllers.Song.getSongs);
 
@@ -16,8 +15,8 @@ const router = (app) => {
 
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
-  app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
-  app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo);
+  app.get('/maker', mid.requiresLogin, controllers.Playlist.makerPage);
+  // app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo);
   app.post('/maker', mid.requiresLogin, controllers.Playlist.makePlaylist);
 
   // app.get('/deletePlaylist', mid.requiresLogin, controllers.Playlist.makerPage);

@@ -1,7 +1,7 @@
 //Displays Error Popup
   const handleError = (message) => {
-    /*document.getElementById('incorrectValsErrMsg').textContent = message;
-    document.getElementById('incorrectValsErrMsg').classList.remove('hidden');
+    //document.getElementById('playlist-error').textContent = message;
+    /*document.getElementById('incorrectValsErrMsg').classList.remove('hidden');
     document.getElementById('user').classList.add('is-danger');
     document.getElementById('pass').classList.add('is-danger');*/
   };

@@ -1,15 +1,16 @@
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 const _ = require('underscore');
 
-const setName = (name) => _.escape(name).trim();
+const setTitle = (title) => _.escape(title).trim();
 const setDescription = (description) => _.escape(description).trim();
+const setPrivacy = (privacy) => _.escape(privacy).trim();
 
 const PlaylistSchema = new mongoose.Schema({
-  name: {
+  title: {
     type: String,
     required: true,
     trim: true,
-    set: setName,
+    set: setTitle,
   },
   description: {
     type: String,
@@ -21,6 +22,7 @@ const PlaylistSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+    set: setPrivacy, 
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -34,9 +36,9 @@ const PlaylistSchema = new mongoose.Schema({
 });
 
 PlaylistSchema.statics.toAPI = (doc) => ({
-  name: doc.name,
+  title: doc.title,
   description: doc.description,
-  privacy: doc.privacy,
+  privacy: doc.privacy, 
 });
 
 const PlaylistModel = mongoose.model('Playlist', PlaylistSchema);

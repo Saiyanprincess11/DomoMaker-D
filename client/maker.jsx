@@ -21,22 +21,79 @@ const handleDomo = (e) => {
     return false; 
 }
 
-//Handles Playlists 
 const handlePlaylist = (e) => {
     e.preventDefault(); 
 
-    const name = e.target.querySelector('#playlist-name').value; 
+    const title = e.target.querySelector('#playlist-title').value; 
     const description = e.target.querySelector('#playlist-description').value; 
-    const privacySetting = e.target.querySelector('input[name="playlist-privacy"]:checked').value; 
-
-    if(!name || !description || !privacySetting){
-        helper.handlePlaylistError('All fields are required!'); 
+    const privacy = e.target.querySelector('input[name=playlist-privacy]:checked').value;
+    console.log(privacy);
+    if(!title || !description || !privacy){
+        helper.handleError('All fields are required'); 
         return false; 
     }
 
-    helper.sendPost(e.target.action, {name, description, privacySetting}, loadPlaylistsFromServer); 
+    helper.sendPost(e.target.action, {title, description, privacy}, loadPlaylistsFromServer ); 
 
     return false; 
+};
+
+const PlaylistForm = (props) => {
+    return(
+        <form action="/maker" 
+        id="playlistForm" 
+        className="playlistForm"
+        name="playlistForm"
+        method="POST"
+        onSubmit={handlePlaylist}
+        >
+          <label htmlFor="name">Name: </label>
+          <input id="playlist-title" type="text" name="playlist-title" placeholder="Playlist Title" />
+          <label htmlFor="description">Description: </label>
+          <input id="playlist-description" type="text" name="playlist-description" placeholder="Description" />
+          <label htmlFor="privacy">Privacy Settings: </label>
+          <input type="radio" id="private" name="playlist-privacy" value="Private"/>
+          <label for="html">Private</label>
+          <input type="radio" id="public" name="playlist-privacy" value="Public"/>
+          <label for="public">Public</label>
+          <input type="submit" value="Make Playlist" className="makePlaylist" />
+        </form>
+    );
+}; 
+
+const PlaylistList = (props) => {
+    if(props.playlists.length === 0){
+        return (
+            <div className="playlistList">
+                <h3 class="playlist-empty">No Playlists Yet!</h3>
+            </div>
+        ); 
+    }
+
+    const playlistNodes = props.playlists.map(playlist => {
+        return(
+            <div key={playlist._id} className="playlist">
+                <h3 class="playlist-title">Title: {playlist.title}</h3>
+                <h3 class="playlist-description">Description: {playlist.description}</h3>
+                <h3 class="playlist-privacy">Privacy Setting: {playlist.privacy}</h3>
+            </div>
+        ); 
+    });
+
+    return (
+        <div className="playlistList">
+            {playlistNodes}
+        </div>
+    );
+}
+
+const loadPlaylistsFromServer = async () => {
+    const response = await fetch('/getPlaylists');
+    const data = await response.json(); 
+    ReactDOM.render(
+        <PlaylistList playlists={data.playlists}/>,
+        document.getElementById('playlists')
+    );
 }
 
 //--- React Components
@@ -60,30 +117,6 @@ const DomoForm = (props) => {
         </form>
     ); 
 
-}
-
-//Playlist Form 
-const PlaylistForm = (props) => {
-    return (
-        <form action="/maker" 
-        id="playlistForm" 
-        className="playlistForm"
-        name="playlistForm"
-        method="POST"
-        onSubmit={handlePlaylist}
-        >
-            <label htmlFor="name">Name: </label>
-            <input id="playlist-name" type="text" name="name" placeholder="Playlist Name" />
-            <label htmlFor="description">Description: </label>
-            <input id="playlist-description" type="text" name="description" placeholder="Description" />
-            <label htmlFor="privacy">Privacy Settings: </label>
-            <input type="radio" id="private" name="playlist-privacy" value="Private"/>
-            <label for="html">Private</label>
-            <input type="radio" id="public" name="playlist-privacy" value="Public"/>
-            <label for="public">Public</label>
-            <input type="submit" value="Make Domo" className="makeDomoSubmit" />
-        </form>
-    ); 
 }
 
 //Navigation Bar 
@@ -143,42 +176,6 @@ const loadDomosFromServer = async () => {
     ReactDOM.render(
         <DomoList domos={data.domos} />,
         document.getElementById('domos')
-    );
-}
-//Loads list of playlists from server 
-const loadPlaylistsFromServer = async () => {
-    const response = await fetch('/getPlaylists'); 
-    const data = await response.json(); 
-    ReactDOM.render(
-        <PlaylistList playlists = {data.playlists}/>, 
-        document.getElementById('playlists')
-    ); 
-}
-
-//Displays list of playlists 
-const PlaylistList = (props) => {
-    if(props.playlists.length === 0){
-        return (
-            <div className="playlistList">
-                <h3 className="emptyPlaylist">No Playlists Yet! Create one now!</h3>
-            </div>
-        )
-    }
-
-    const playlistNodes = props.playlists.map(playlist => {
-        return(
-            <div className="playlist" key={playlist._id}>
-                <h3 className="playlist-name">Name: {playlist.name}</h3>
-                <h3 className="playlist-description">Description: {playlist.description}</h3>
-                <h3 className="playlist-privacy">Privacy: {playlist.privacy}</h3>
-            </div>
-        );
-    });
-
-    return (
-        <div className="playlistList">
-            {playlistNodes}
-        </div>
     );
 }
 
