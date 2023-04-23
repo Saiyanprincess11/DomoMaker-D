@@ -31,7 +31,11 @@ const makePlaylist = async (req, res) => {
   try {
     const newPlaylist = new Playlist(playlistData);
     newPlaylist.save();
-    return res.status(201).json({ name: newPlaylist.name, description: newPlaylist.description, privacy: newPlaylist.privacy });
+    return res.status(201).json({
+      name: newPlaylist.name,
+      description: newPlaylist.description,
+      privacy: newPlaylist.privacy,
+    });
   } catch (err) {
     // console.log(err);
     if (err.code === 11000) {
