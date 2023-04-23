@@ -3,7 +3,7 @@ const models = require('../models');
 const { Playlist } = models;
 
 const makePlaylist = async (req, res) => {
-  if (!req.body.title || !req.body.description) {
+  if (!req.body.title || !req.body.description || !req.body.privacy) {
     return res.status(400).json({ error: 'A title, privacy setting and description are required' });
   }
 
@@ -34,7 +34,7 @@ const makePlaylist = async (req, res) => {
 const getPlaylists = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
-    const docs = await Playlist.find(query).select('title description').lean().exec();
+    const docs = await Playlist.find(query).select('title description privacy').lean().exec();
 
     return res.json({ playlists: docs });
   } catch (err) {
