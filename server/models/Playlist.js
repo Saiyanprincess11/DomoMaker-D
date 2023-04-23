@@ -2,25 +2,25 @@ const { default: mongoose } = require('mongoose');
 const _ = require('underscore');
 
 const setName = (name) => _.escape(name).trim();
-const setSkill = (skill) => _.escape(skill).trim();
+const setDescription = (description) => _.escape(description).trim();
 
-const DomoSchema = new mongoose.Schema({
+const PlaylistSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     trim: true,
     set: setName,
   },
-  skill: {
+  description: {
     type: String,
     required: true,
     trim: true,
-    set: setSkill,
+    set: setDescription,
   },
-  age: {
-    type: Number,
-    min: 0,
+  privacy: {
+    type: String,
     required: true,
+    trim: true,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -33,11 +33,11 @@ const DomoSchema = new mongoose.Schema({
   },
 });
 
-DomoSchema.statics.toAPI = (doc) => ({
+PlaylistSchema.statics.toAPI = (doc) => ({
   name: doc.name,
-  age: doc.age,
-  skill: doc.skill,
+  description: doc.description,
+  privacy: doc.privacy,
 });
 
-const DomoModel = mongoose.model('Domo', DomoSchema);
-module.exports = DomoModel;
+const PlaylistModel = mongoose.model('Playlist', PlaylistSchema);
+module.exports = PlaylistModel;

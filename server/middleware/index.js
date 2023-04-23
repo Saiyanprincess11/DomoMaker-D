@@ -14,6 +14,14 @@ const requiresLogout = (req, res, next) => {
   return next();
 };
 
+// Restricts non-premium members
+const requiresPremium = (req, res, next) => {
+  if (!req.session.account) {
+    return res.redirect('/');
+  }
+  return next();
+};
+
 // Checks for secure actions
 const requiresSecure = (req, res, next) => {
   // checks to see if request was secure
@@ -30,6 +38,7 @@ const bypassSecure = (req, res, next) => {
 
 module.exports.requiresLogin = requiresLogin;
 module.exports.requiresLogout = requiresLogout;
+module.exports.requiresPremium = requiresPremium;
 
 // Chooses production based on environment
 if (process.nextTick.NODE_ENV === 'production') {

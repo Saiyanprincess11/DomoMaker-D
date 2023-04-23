@@ -21,6 +21,7 @@ const LoginWindow = (props) => {
         </form>
     ); 
 }; 
+
 const init = () => {
     ReactDOM.render(
         <LoginWindow />,

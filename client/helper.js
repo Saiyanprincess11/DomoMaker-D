@@ -1,9 +1,13 @@
 //Displays Error Popup
   const handleError = (message) => {
-    document.getElementById('incorrectValsErrMsg').textContent = message;
+    /*document.getElementById('incorrectValsErrMsg').textContent = message;
     document.getElementById('incorrectValsErrMsg').classList.remove('hidden');
     document.getElementById('user').classList.add('is-danger');
-    document.getElementById('pass').classList.add('is-danger');
+    document.getElementById('pass').classList.add('is-danger');*/
+  };
+
+  const handlePlaylistError = (message) => {
+    document.getElementById('playlist-error-msg').textContent = message;
   };
 
   const handleSignupError = (message) => {
@@ -20,7 +24,6 @@
     document.getElementById('user').classList.add('is-danger');
   };
   
-
   //When passwords don't match
   const handleValueError = (message) => {
     document.getElementById('incorrectValsErrMsg').textContent = message;
@@ -29,6 +32,19 @@
     document.getElementById('pass2').classList.add('is-danger');
   };
 
+  //Button Events 
+  //Hides music card data
+  const hideData = () => {
+    document.getElementById('music-data').classList.add('is-hidden'); 
+    document.getElementById('music-data-footer').classList.add('is-hidden'); 
+  };
+
+  //Displays music card data
+  const showData = () => {
+    document.getElementById('music-data').classList.remove('is-hidden'); 
+    document.getElementById('music-data-footer').classList.remove('is-hidden'); 
+  };
+   
  
   /* Sends post requests to the server using fetch. Will look for various
      entries in the response JSON object, and will handle them appropriately.
@@ -43,7 +59,7 @@
     });
   
     const result = await response.json();
-    document.getElementById('domoMessage').classList.add('hidden');
+    //document.getElementById('domoMessage').classList.add('hidden');
   
     if(result.redirect) {
       window.location = result.redirect;
@@ -54,25 +70,24 @@
     }
 
     if(handler){
-        handler(result); 
+      handler(result); 
     }
   };
 
-  //Connects to Music API
- 
-
   //Hides error pop-up
   const hideError = () => {
-    document.getElementById('incorrectValsErrMsg').classList.add('hidden'); 
-    document.getElementById('pass').classList.remove('is-danger'); 
-    document.getElementById('user').classList.remove('is-danger'); 
+    //document.getElementById('pass').classList.remove('is-danger'); 
+    //document.getElementById('user').classList.remove('is-danger'); 
   }; 
 
   module.exports = {
     handleError,
+    handlePlaylistError,
     handleSignupError,
     handleNameError,
     handleValueError,
     sendPost, 
-    hideError, 
+    hideError,
+    hideData, 
+    showData, 
   }

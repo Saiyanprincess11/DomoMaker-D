@@ -42,6 +42,7 @@
     "express-handlebars": "^7.0.4",
     "express-session": "^1.17.3",
     "helmet": "^6.0.1",
+    "moment-timezone": "^0.5.43",
     "mongoose": "^7.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
