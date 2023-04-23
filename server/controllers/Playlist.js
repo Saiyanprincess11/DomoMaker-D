@@ -1,18 +1,18 @@
 /* Playlists store the songs a user selects */
 const models = require('../models');
 
-const { Playlist } = models; 
+const { Playlist } = models;
 
 // Renders main page
 const makerPage = async (req, res) => res.render('app');
 
-/*const aboutPage = (req, res) => {
+/* const aboutPage = (req, res) => {
   res.render('about');
 };
 
 const contactPage = (req, res) => {
   res.render('contact');
-};*/
+}; */
 
 // Creates new playlist
 const makePlaylist = async (req, res) => {

@@ -7,7 +7,7 @@ const router = (app) => {
   // If criteria isn't met, loads different page and breaks flow
   app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
   app.get('/getPlaylists', mid.requiresLogin, controllers.Playlist.getPlaylists);
-  //app.get('/getSongs', mid.requiresLogin, controllers.Song.getSongs);
+  // app.get('/getSongs', mid.requiresLogin, controllers.Song.getSongs);
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
@@ -20,8 +20,8 @@ const router = (app) => {
   app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo);
   app.post('/maker', mid.requiresLogin, controllers.Playlist.makePlaylist);
 
-  //app.get('/deletePlaylist', mid.requiresLogin, controllers.Playlist.makerPage);
-  //app.post('/deletePlaylist', mid.requiresLogin, controllers.Playlist.deletePlaylist);
+  // app.get('/deletePlaylist', mid.requiresLogin, controllers.Playlist.makerPage);
+  // app.post('/deletePlaylist', mid.requiresLogin, controllers.Playlist.deletePlaylist);
 
   app.get('/about', mid.requiresSecure, mid.requiresLogout, controllers.Domo.aboutPage);
   app.get('/contact', mid.requiresSecure, mid.requiresLogout, controllers.Domo.contactPage);
