@@ -22,8 +22,8 @@ const router = (app) => {
   // app.get('/deletePlaylist', mid.requiresLogin, controllers.Playlist.makerPage);
   // app.post('/deletePlaylist', mid.requiresLogin, controllers.Playlist.deletePlaylist);
 
-  app.get('/about', mid.requiresSecure, mid.requiresLogout, controllers.Domo.aboutPage);
-  app.get('/contact', mid.requiresSecure, mid.requiresLogout, controllers.Domo.contactPage);
+  //app.get('/about', mid.requiresSecure, mid.requiresLogout, controllers.Domo.aboutPage);
+  //app.get('/contact', mid.requiresSecure, mid.requiresLogout, controllers.Domo.contactPage);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.homePage);
 
