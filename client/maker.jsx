@@ -2,57 +2,47 @@ const helper = require('./helper.js');
 const React = require('react'); 
 const ReactDOM = require('react-dom'); 
 
-//Song Form
+const handleSong = (e) => {
+    e.preventDefault();
+    
+    const songTitle = e.target.querySelector('#song-title').value; 
+    if(!songTitle){
+        console.log('All fields are required'); 
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {songTitle}); 
+    return false;
+};
+
 const SongForm = (props) => {
     return(
-        <form action="/addSong"
-        id="songForm"
-        className="songForm"
-        name="songForm"
-        method="POST"
-        onsubmit={handleSong}
-      >
-        <label htmlFor="songTitle:">Title:</label>
-        <input type="text" id="song-title" name="song-title" placeholder="Song Title"/>
-        <input type="submit" value="Add Song" className="addSong" />
-      </form> 
+        <form 
+            action="/addSong" 
+            id="songForm"
+            method="POST"
+            onSubmit={handleSong}
+        >
+          <label htmlFor="songTitle">Song Title: </label>
+          <input id="song-title" type="text" name="song-title" placeholder="Song Title" />
+          <input type="submit" value="Make Song" className="makeSong" />
+        </form>
     );
 };
 
-//Handles Add Song Form Data
-const handleSong = (e) => {
-    e.preventDefault();
-
-    //Form Variables 
-    const songTitle = e.target.querySelector('#song-title').value; 
-
-    //Ensures all fields are entered
-    if(!songTitle){
-        console.log('All fields are required'); 
-        return false; 
-    }
-    //Sends data w/ POST 
-    helper.sendPost(e.target.action, {songTitle}, loadSongsFromServer); 
-
-    return false; 
-};
-
-//Gets Songs Data
 const SongList = (props) => {
-    //If no songs have been added yet
     if(props.songs.length === 0){
         return(
             <div className="songList">
-                <h3 className="songlist-empty">No Songs Yet!</h3>
+                <h3 className="emptySong">No Songs Yet!</h3>
             </div>
         );
     }
 
-    //Returns list of songs 
     const songNodes = props.songs.map(song => {
         return(
             <div key={song._id} className="song">
-                <h3 className="song-title">Title: {song.title}</h3>
+                <h3 className="songTitle">Song Title: {song.songTitle} </h3>
             </div>
         );
     });
@@ -61,17 +51,17 @@ const SongList = (props) => {
         <div className="songList">
             {songNodes}
         </div>
-    );
-}
-//Fetches song data from server 
+    )
+};
+
 const loadSongsFromServer = async () => {
     const response = await fetch('/getSongs'); 
     const data = await response.json(); 
     ReactDOM.render(
-        <SongList songs = {data.songs}/>,
+        <SongList songs = {data.songs} />,
         document.getElementById('songs')
     );
-};
+}
 
 //Playlist Form 
 //Gets Playlist Data
@@ -97,6 +87,7 @@ const PlaylistForm = (props) => {
         </form>
     );
 }; 
+
 //Handles Playlist Form Data
 const handlePlaylist = (e) => {
     e.preventDefault(); 

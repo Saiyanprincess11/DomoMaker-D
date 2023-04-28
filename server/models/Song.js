@@ -1,30 +1,29 @@
-const mongoose = require('mongoose');
-const _ = require('underscore');
+const mongoose = require('mongoose'); 
+const _ = require('underscore'); 
 
-// Variables
-const setTitle = (title) => _.escape(title).trim();
+const setSongTitle = (songTitle) => _.escape(songTitle).trim(); 
 
 const SongSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-    set: setTitle,
-  },
-  owner: {
-    type: mongoose.Schema.ObjectId,
-    required: true,
-    ref: 'Account',
-  },
-  createdDate: {
-    type: Date,
-    default: Date.now,
-  },
+    songTitle: {
+        type: String,
+        required: true, 
+        trim: true, 
+        set: setSongTitle, 
+    }, 
+    owner: {
+        type: mongoose.Schema.ObjectId, 
+        required: true,
+        ref: 'Account',
+    }, 
+    createdDate: {
+        type: Date, 
+        default: Date.now, 
+    }, 
 });
 
 SongSchema.statics.toAPI = (doc) => ({
-  title: doc.title,
+    songTitle: doc.songTitle,
 });
 
-const SongModel = mongoose.model('Song', SongSchema);
-module.exports = SongModel;
+const SongModel = mongoose.model('Song', SongSchema); 
+module.exports = SongModel; 

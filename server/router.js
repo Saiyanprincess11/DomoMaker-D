@@ -23,8 +23,8 @@ const router = (app) => {
   // app.get('/deletePlaylist', mid.requiresLogin, controllers.Playlist.makerPage);
   // app.post('/deletePlaylist', mid.requiresLogin, controllers.Playlist.deletePlaylist);
 
-  app.get('/about', mid.requiresSecure, mid.requiresLogout, controllers.Song.aboutPage);
-  app.get('/contact', mid.requiresSecure, mid.requiresLogout, controllers.Song.contactPage);
+  //app.get('/about', mid.requiresSecure, mid.requiresLogout, controllers.Song.aboutPage);
+  //app.get('/contact', mid.requiresSecure, mid.requiresLogout, controllers.Song.contactPage);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.homePage);
 
   // app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
