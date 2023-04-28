@@ -1,20 +1,92 @@
 const helper = require('./helper.js'); 
 const React = require('react'); 
-const ReactDOM = require('react-dom'); 
+const ReactDOM = require('react-dom');
 
-const handleSong = (e) => {
+
+//Get Playlist by name
+const GetPlayListByIDForm = (props) => {
+    return (
+        <form
+            action="/removePlaylist"
+            id="getPlaylistIdForm"
+            method="POST"
+            onSubmit={handlePlaylistID}
+        >
+          <label htmlFor="getPlaylist">Get Playlist: </label>
+          <input id="playlist-id" type="text" name="playlist-id" placeholder="Playlist ID" />
+          <label htmlFor="getSong">Get Song: </label>
+          <input id="song-id" type="text" name="song-id" placeholder="Add song" />
+          <input type="submit" value="Get Playlist ID" className="getPlaylistID" />
+        </form>
+    );
+};
+const handlePlaylistID = (e) => {
     e.preventDefault();
-    
-    const songTitle = e.target.querySelector('#song-title').value; 
-    if(!songTitle){
+    const title = e.target.querySelector('#playlist-id').value.trim().toString(); 
+    const songID = e.target.querySelector('#song-id'); 
+    const description = ""; 
+    const privacy = ""; 
+
+    if(!title){
         console.log('All fields are required'); 
         return false;
     }
 
-    helper.sendPost(e.target.action, {songTitle}); 
+    helper.sendPost(e.target.action, {title, description, privacy}, loadPlaylistFromID); 
     return false;
 };
+const ResultList = (props) => {
+    if(props.results.length === 0){
+        return (
+            <div className="resultList">
+                <h3 class="resultList-empty">No Playlists Yet!</h3>
+            </div>
+        ); 
+    }
+    const resultListNodes = props.results.map(playlist => {
+        return(
+            <div key={playlist._id} className="playlist">
+                <h3 class="playlist-title">Title: {playlist.title}</h3>
+                <h3 class="playlist-description">Description: {playlist.description}</h3>
+                <h3 class="playlist-privacy">Privacy Setting: {playlist.privacy}</h3>
+                <h3 className="playlist-songs">Songs:{playlist.songs} </h3>
+            </div>
+        ); 
+    });
 
+    return (
+        <div className="resultList">
+            {resultListNodes}
+        </div>
+    );
+};
+const loadPlaylistFromID = async () => {
+    const response = await fetch('/getPlaylistID');
+    const data = await response.json(); //title to
+    ReactDOM.render(
+        <ResultList results={data.playlists}/>,
+        document.getElementById('results')
+    );
+}; 
+
+//Song Form 
+const handleSong = (e) => {
+    e.preventDefault();
+    
+    const songTitle = e.target.querySelector('#song-title').value; 
+    const artist = e.target.querySelector('#song-artist').value; 
+    const album = e.target.querySelector('#album-title').value; 
+    const duration = e.target.querySelector('#song-duration').value; 
+    const imageURL = e.target.querySelector('#song-imageURL').value; 
+
+    if(!songTitle || !artist || !duration || !imageURL){
+        console.log('All fields are required'); 
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {songTitle, artist, album, duration, imageURL}, loadSongsFromServer); 
+    return false;
+};
 const SongForm = (props) => {
     return(
         <form 
@@ -25,11 +97,18 @@ const SongForm = (props) => {
         >
           <label htmlFor="songTitle">Song Title: </label>
           <input id="song-title" type="text" name="song-title" placeholder="Song Title" />
+          <label htmlFor="artist">Artist: </label>
+          <input id="song-artist" type="text" name="song-artist" placeholder="Artist" />
+          <label htmlFor="albumTitle">Album: </label>
+          <input id="album-title" type="text" name="album-title" placeholder="Album" />
+          <label htmlFor="songDuration">Duration: </label>
+          <input id="song-duration" type="text" name="song-duration" placeholder="Duration" />
+          <label htmlFor="songImageURL">Image URL: </label>
+          <input id="song-imageURL" type="text" name="song-imageURL" placeholder="Image URL" />
           <input type="submit" value="Make Song" className="makeSong" />
         </form>
     );
 };
-
 const SongList = (props) => {
     if(props.songs.length === 0){
         return(
@@ -43,6 +122,10 @@ const SongList = (props) => {
         return(
             <div key={song._id} className="song">
                 <h3 className="songTitle">Song Title: {song.songTitle} </h3>
+                <h3 className="songArtist">Artist: {song.artist} </h3>
+                <h3 className="songAlbum">Album: {song.album} </h3>
+                <h3 className="songDuration">Duration: {song.duration} </h3>
+                <h3 className="songImageURL">Image URL: {song.imageURL} </h3>
             </div>
         );
     });
@@ -51,9 +134,8 @@ const SongList = (props) => {
         <div className="songList">
             {songNodes}
         </div>
-    )
+    );
 };
-
 const loadSongsFromServer = async () => {
     const response = await fetch('/getSongs'); 
     const data = await response.json(); 
@@ -87,7 +169,6 @@ const PlaylistForm = (props) => {
         </form>
     );
 }; 
-
 //Handles Playlist Form Data
 const handlePlaylist = (e) => {
     e.preventDefault(); 
@@ -107,7 +188,6 @@ const handlePlaylist = (e) => {
 
     return false; 
 };
-
 //handles ist of Playlist Data
 const PlaylistList = (props) => {
     if(props.playlists.length === 0){
@@ -117,7 +197,6 @@ const PlaylistList = (props) => {
             </div>
         ); 
     }
-
     const playlistNodes = props.playlists.map(playlist => {
         return(
             <div key={playlist._id} className="playlist">
@@ -177,7 +256,6 @@ const PlaylistList = (props) => {
         </div>
     );
 };
-
 //Fetches playlist data from the server 
 const loadPlaylistsFromServer = async () => {
     const response = await fetch('/getPlaylists');
@@ -188,6 +266,7 @@ const loadPlaylistsFromServer = async () => {
         document.getElementById('playlists')
     );
 };
+
 
 //--- React Components ---
 
@@ -255,6 +334,11 @@ const init = () => {
         document.getElementById('addSong')
     ); 
     
+    //Result Form 
+    ReactDOM.render(
+        <GetPlayListByIDForm />,
+        document.getElementById('findPlaylist')
+    );
     //Navbar
     ReactDOM.render(
         <Navbar />,
@@ -273,6 +357,12 @@ const init = () => {
         document.getElementById('playlists') 
     );
 
+    //PlayList Result Found
+    ReactDOM.render(
+        <ResultList results = {[]} />,
+        document.getElementById('results') 
+    ); 
+
     //Song Data 
     ReactDOM.render(
         <SongList songs = {[]} />, 
@@ -284,7 +374,8 @@ const init = () => {
     document.getElementById('showMoreBtn').addEventListener('click', helper.showData); 
 
     loadPlaylistsFromServer(); 
-    loadSongsFromServer(); 
+    loadSongsFromServer();
+    loadPlaylistFromID();
 }
 
 window.onload = init; 
