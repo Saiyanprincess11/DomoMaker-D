@@ -44,6 +44,17 @@
     document.getElementById('music-data').classList.remove('is-hidden'); 
     document.getElementById('music-data-footer').classList.remove('is-hidden'); 
   };
+
+  const hidePlaylistData = (id) => {
+    //document.getElementById(id).classList.add('is-hidden');
+  }
+
+  const showPlaylistData = (id) => {
+
+    console.log(id); 
+    //document.getElementsByClassName(`$id`).classList.add('is-hidden'); 
+    //document.getElementById(id).classList.remove('is-hidden');
+  }
    
  
   /* Sends post requests to the server using fetch. Will look for various
@@ -89,5 +100,7 @@
     sendPost, 
     hideError,
     hideData, 
+    hidePlaylistData,
+    showPlaylistData, 
     showData, 
   }

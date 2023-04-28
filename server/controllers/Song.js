@@ -9,29 +9,18 @@ const makeSong = async (req, res) => {
   if (!req.body.title) {
     req.body.title = 'Unknown';
   }
-  if (!req.body.artist) {
-    req.body.artist = 'Unknown';
-  }
-  if (!req.body.album) {
-    req.body.album = 'Unknown';
-  }
 
+  // Otherwise creates new Song from data
   const songData = {
     title: req.body.title,
-    artist: req.body.artist,
-    album: req.body.album,
-    duration: req.body.duration,
     owner: req.session.account._id,
   };
 
   try {
     const newSong = new Song(songData);
-    newSong.save();
+    await newSong.save();
     return res.status(201).json({
       title: newSong.title,
-      artist: newSong.artist,
-      album: newSong.album,
-      duration: newSong.duration,
     });
   } catch (err) {
     console.log(err);
@@ -42,20 +31,15 @@ const makeSong = async (req, res) => {
   }
 };
 
-// Renders Pages
-const appPage = async (req, res) => res.render('app');
-const aboutPage = (req, res) => {
-  res.render('about');
-};
-const contactPage = (req, res) => {
-  res.render('contact');
-};
+// Pages
+const aboutPage = (req, res) => { res.render('about'); };
+const contactPage = (req, res) => { res.render('contact'); };
 
 // Gets all songs
 const getSongs = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
-    const docs = await Song.find(query).select('title artist album duration').lean().exec();
+    const docs = await Song.find(query).select('title').lean().exec();
 
     return res.json({ songs: docs });
   } catch (err) {
@@ -65,7 +49,6 @@ const getSongs = async (req, res) => {
 };
 
 module.exports = {
-  appPage,
   aboutPage,
   contactPage,
   makeSong,

@@ -22,7 +22,13 @@ const PlaylistSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    set: setPrivacy, 
+    set: setPrivacy,
+  },
+  songs: {
+    type: Array,
+    trim: true,
+    required: true,
+    maxlength: 100,
   },
   owner: {
     type: mongoose.Schema.ObjectId,
@@ -38,7 +44,8 @@ const PlaylistSchema = new mongoose.Schema({
 PlaylistSchema.statics.toAPI = (doc) => ({
   title: doc.title,
   description: doc.description,
-  privacy: doc.privacy, 
+  privacy: doc.privacy,
+  songs: doc.songs,
 });
 
 const PlaylistModel = mongoose.model('Playlist', PlaylistSchema);

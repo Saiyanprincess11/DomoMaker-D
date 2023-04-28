@@ -1,9 +1,7 @@
 const models = require('../models');
 
 const { Account } = models;
-
 const loginPage = (req, res) => res.render('login');
-
 const homePage = (req, res) => res.render('home');
 
 const logout = (req, res) => {
@@ -104,7 +102,7 @@ const changePassword = async (req, res) => {
 
     // If password has already been used...
     if (err.code === 11000) {
-      return res.status(400).json({ error: 'Password already in!' });
+      return res.status(400).json({ error: 'Password already in use!' });
     }
     return res.status(500).json({ error: 'An error occured!' });
   }
