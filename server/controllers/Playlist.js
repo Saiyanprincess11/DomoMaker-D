@@ -33,19 +33,21 @@ const makePlaylist = async (req, res) => {
   }
 };
 
+const editPlaylist = async ()
+
 const removePlaylist = async (req, res) => {
   const playListData = {
-    title: req.body.title, 
-    description: "",
-    privacy: "",
+    title: req.body.title,
+    description: '',
+    privacy: '',
     songs: [],
     owner: req.session.account._id,
   };
 
   try {
-    const removePlaylist = new Playlist(playListData); 
-    //Finds playlists with 
-    const query = {title: `${removePlaylist.title}`};
+    const removeList = new Playlist(playListData);
+    // Finds playlists with
+    const query = { title: `${removeList.title}` };
     const docs = await Playlist.findOneAndRemove(query).select('title description privacy songs').lean().exec();
 
     return res.json({ playlists: docs });
@@ -56,21 +58,20 @@ const removePlaylist = async (req, res) => {
 };
 
 const getPlaylistID = async (req, res) => {
-
-  //Stores title in an empty playlist
+  // Stores title in an empty playlist
   const playListData = {
-    title: req.body.title, 
-    description: "",
-    privacy: "",
+    title: req.body.title,
+    description: '',
+    privacy: '',
     songs: [],
     owner: req.session.account._id,
   };
 
-  //Searches database by playlist title 
+  // Searches database by playlist title
   try {
-    const findPlaylist = new Playlist(playListData); 
-    //Finds playlists with 
-    const query = {title: `${findPlaylist.title}`};
+    const findPlaylist = new Playlist(playListData);
+    // Finds playlists with
+    const query = { title: `${findPlaylist.title}` };
     const docs = await Playlist.find(query).select('title description privacy songs').lean().exec();
 
     return res.json({ playlists: docs });

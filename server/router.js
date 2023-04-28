@@ -7,13 +7,13 @@ const router = (app) => {
   // If criteria isn't met, loads different page and breaks flow
   app.get('/getPlaylists', mid.requiresLogin, controllers.Playlist.getPlaylists);
   app.get('/getSongs', mid.requiresLogin, controllers.Song.getSongs);
-  
+
   app.get('/removePlaylist', mid.requiresLogin, controllers.Playlist.getPlaylists);
   app.post('/removePlaylist', mid.requiresLogin, controllers.Playlist.removePlaylist);
-  
+
   app.get('/getPlaylistID', mid.requiresLogin, controllers.Playlist.getPlaylists);
   app.post('/getPlaylistID', mid.requiresLogin, controllers.Playlist.getPlaylistID);
-  
+
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
 

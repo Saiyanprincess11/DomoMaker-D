@@ -7,7 +7,7 @@ const ReactDOM = require('react-dom');
 const GetPlayListByIDForm = (props) => {
     return (
         <form
-            action="/removePlaylist"
+            action="/getPlaylistID"
             id="getPlaylistIdForm"
             method="POST"
             onSubmit={handlePlaylistID}
@@ -35,6 +35,23 @@ const handlePlaylistID = (e) => {
     helper.sendPost(e.target.action, {title, description, privacy}, loadPlaylistFromID); 
     return false;
 };
+
+const handleRemovePlaylist = (e) => {
+    e.preventDefault();
+    const title = e.target.querySelector(".playlist-title").id; 
+    const description = ""; 
+    const privacy = ""; 
+
+    if(!title){
+        console.log('All fields are required'); 
+        return false;
+    }
+
+    helper.sendPost(e.target.action, {title, description, privacy}, removePlaylist); 
+    return false;
+};
+
+
 const ResultList = (props) => {
     if(props.results.length === 0){
         return (
@@ -46,10 +63,18 @@ const ResultList = (props) => {
     const resultListNodes = props.results.map(playlist => {
         return(
             <div key={playlist._id} className="playlist">
-                <h3 class="playlist-title">Title: {playlist.title}</h3>
-                <h3 class="playlist-description">Description: {playlist.description}</h3>
-                <h3 class="playlist-privacy">Privacy Setting: {playlist.privacy}</h3>
-                <h3 className="playlist-songs">Songs:{playlist.songs} </h3>
+                <form 
+                 action="/removePlaylist"
+                 id="removePlaylistForm"
+                 method="POST"
+                 onSubmit={handleRemovePlaylist}
+                >
+                    <h3 class="playlist-title" id={playlist.title}>Title: {playlist.title}</h3>
+                    <h3 class="playlist-description">Description: {playlist.description}</h3>
+                    <h3 class="playlist-privacy">Privacy Setting: {playlist.privacy}</h3>
+                    <h3 className="playlist-songs">Songs:{playlist.songs} </h3>
+                    <input type='submit' value="X" className="removePlaylist"></input>
+                </form>
             </div>
         ); 
     });
@@ -67,6 +92,15 @@ const loadPlaylistFromID = async () => {
         <ResultList results={data.playlists}/>,
         document.getElementById('results')
     );
+}; 
+const removePlaylist = async () => {
+    const response = await fetch('/removePlaylist');
+    const data = await response.json(); //title to
+    ReactDOM.render(
+        <ResultList results={data.playlists}/>,
+        document.getElementById('results')
+    );
+    loadPlaylistsFromServer(); 
 }; 
 
 //Song Form 
@@ -376,6 +410,7 @@ const init = () => {
     loadPlaylistsFromServer(); 
     loadSongsFromServer();
     loadPlaylistFromID();
+    removePlaylist(); 
 }
 
 window.onload = init; 
