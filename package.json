@@ -32,6 +32,7 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "axios": "^0.24.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",

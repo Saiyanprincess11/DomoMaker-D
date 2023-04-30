@@ -22,6 +22,12 @@ const router = (app) => {
   app.get('/addSongToPlaylist', mid.requiresLogin, controllers.Playlist.getPlaylists);
   app.post('/addSongToPlaylist', mid.requiresLogin, controllers.Playlist.addSongtoPlaylist);
 
+  //app.get('/callAPI', mid.requiresLogin, controllers.Song.callAPI);
+  //app.post('/callAPI', mid.requiresLogin, controllers.Song.showAPI);
+
+  app.get('/getSearchTerm', mid.requiresLogin, controllers.Song.getSearch);
+  app.post('/getSearchTerm', mid.requiresLogin, controllers.Song.showSearchRes);
+
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
 

@@ -1,99 +1,8 @@
 const helper = require('./helper.js'); 
 const React = require('react'); 
 const ReactDOM = require('react-dom');
+const axios = require('axios');
 
-//Get Song By ID Form 
-//Test Purposes Only 
-/*const GetSongByIDForm = (props) => {
-    return (
-        <form
-            action="/getSongID"
-            id="getSongIDForm"
-            method="POST"
-            onSubmit={handleSongID}
-        >
-          <label htmlFor="getSong">Get Song: </label>
-          <input id="song-id" type="text" name="song-id" placeholder="Add song" />
-          <input type="submit" value="Get Song ID" className="getSongID" />
-        </form>
-    );
-};
-const handleSongID = (e) => {
-    e.preventDefault(); 
-    const songTitle = e.target.querySelector('#song-id').value.trim().toString(); 
-
-    if(!songTitle){
-        console.log('All fields are required'); 
-        return false; 
-    }
-
-    helper.sendPost(e.target.action, {songTitle}, loadSongFromID); 
-    return false; 
-}; 
-const handleRemoveSong = (e) => {
-    e.preventDefault(); 
-    const songTitle = e.target.querySelector(".song-title").id; 
-    
-    if(!songTitle){
-        console.log('All fields are required'); 
-        return false; 
-    }
-
-    helper.sendPost(e.target.action, {songTitle}, removeSong); 
-}; 
-const SongResultList = (props) => {
-    if(props.songResults.length === 0){
-        return (
-            <div className="songResultList">
-                <h3 class="songResultList-empty">No Songs Yet!</h3>
-            </div>
-        ); 
-    }
-    const songResultListNodes = props.songResults.map(song => {
-        return(
-            <div key={song._id} className="song">
-                <form 
-                 action="/removeSong"
-                 id="removeSongForm"
-                 method="POST"
-                 onSubmit={handleRemoveSong}
-                >
-                    <h3 class="song-title" id={song.songTitle}>Title: {song.songTitle}</h3>
-                    <h3 class="song-artist">Artist: {song.artist}</h3>
-                    <h3 class="song-album">Album: {song.album}</h3>
-                    <h3 class="song-duration">Duration:{song.duration} </h3>
-                    <h3 class="song-imageURL">Image URL:{song.imageURL} </h3>
-                    <input type='submit' value="X" className="removeSong"></input>
-                </form>
-            </div>
-        ); 
-    });
-
-    return (
-        <div className="songResultList">
-            {songResultListNodes}
-        </div>
-    );
-}; 
-const removeSong = async () => {
-    const response = await fetch('/removeSong');
-    const data = await response.json(); //title to
-    ReactDOM.render(
-        <SongResultList songResults={data.songs}/>,
-        document.getElementById('songResults')
-    );
-    loadSongsFromServer();
-}; 
-const loadSongFromID = async () => {
-    const response = await fetch('/getSongID');
-    const data = await response.json();
-    ReactDOM.render(
-        <SongResultList songResults = {data.songs}/>,
-        document.getElementById('songResults')
-    );
-}; */
-
-//Get Playlist by ID Form
 /*const GetPlayListByIDForm = (props) => {
     return (
         <form
@@ -225,6 +134,50 @@ const loadUpdatedPlaylist = async () => {
         document.getElementById('playlists')
     );
 };
+
+
+const SearchSongForm = (props) => {
+    return (
+        <form
+            action="/getSearchTerm"
+            id="getSearchTerm"
+            method="POST"
+            onSubmit={handleGetSearchTerm}
+        >
+          <label htmlFor="getSong">Get Song: </label>
+          <input id="song-title" type="text" name="song-title" placeholder="Find Song" />
+          <input type="submit" value="Get Song ID" className="getSongID" />
+        </form>
+    );
+};
+
+const handleGetSearchTerm = (e) => {
+    e.preventDefault(); 
+    const searchTerm = e.target.querySelector('#song-title').value; 
+
+    if(!searchTerm){
+        console.log('Enter search term'); 
+        false; 
+    }
+
+    helper.sendPost(e.target.action, {searchTerm}, loadSearchTermFromServer); 
+    false; 
+}; 
+
+const loadSearchTermFromServer = async () => {
+    const response = await fetch('/getSearchTerm'); 
+    const data = await response.json(); 
+   console.log(data); 
+}; 
+
+
+//Send GET Request to get API
+const callAPI = async () => {
+    const response = await fetch('/callAPI'); 
+    const data = await response.json(); 
+   console.log(data);
+};
+
 
 
 //Song Form 
@@ -579,24 +532,17 @@ const init = () => {
         document.getElementById('addSong')
     ); 
 
-    //Add Song To Playlist Form 
+    //Add Song To Playlist
     ReactDOM.render(
-        <AddSongToPlaylistForm/>,
-        document.getElementById('addToPlaylist')
-    );
-
-    //Result Form 
-    /*
-    ReactDOM.render(
-        <GetPlayListByIDForm />,
-        document.getElementById('findPlaylist')
-    );
-
-    //Song Resut Form 
-    ReactDOM.render(
-        <GetSongByIDForm />,
+        <AddSongToPlaylistForm />,
         document.getElementById('findSong')
-    );*/
+    );
+
+    //Search API Form 
+    ReactDOM.render(
+        <SearchSongForm />,
+        document.getElementById('searchSong') 
+    );
 
     //Navbar
     ReactDOM.render(
@@ -621,18 +567,12 @@ const init = () => {
         <SongList songs = {[]} />, 
         document.getElementById('songs')
     );
-
+    
     //PlayList Result Found
     /*ReactDOM.render(
         <ResultList results = {[]} />,
         document.getElementById('results') 
-    ); 
-
-    //SongResultList Results Found
-    ReactDOM.render(
-        <SongResultList songResults = {[]} />,
-        document.getElementById('songResults')
-    );*/
+    ); */
 
     //Button Event Listeners 
     document.getElementById('showLessBtn').addEventListener('click', helper.hideData); 
@@ -640,6 +580,7 @@ const init = () => {
 
     loadPlaylistsFromServer(); 
     loadSongsFromServer();
+    //callAPI(); 
 }
 
 window.onload = init; 
