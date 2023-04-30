@@ -1,7 +1,9 @@
 const models = require('../models');
 
 const { Playlist } = models;
+const { Song } = models;
 
+// Creates new playlist
 const makePlaylist = async (req, res) => {
   if (!req.body.title || !req.body.description || !req.body.privacy) {
     return res.status(400).json({ error: 'A title, privacy setting and description are required' });
@@ -11,7 +13,6 @@ const makePlaylist = async (req, res) => {
     title: req.body.title,
     description: req.body.description,
     privacy: req.body.privacy,
-    songs: [],
     owner: req.session.account._id,
   };
 
@@ -33,22 +34,18 @@ const makePlaylist = async (req, res) => {
   }
 };
 
-const editPlaylist = async ()
-
+// Removes playlist from database
 const removePlaylist = async (req, res) => {
   const playListData = {
     title: req.body.title,
-    description: '',
-    privacy: '',
-    songs: [],
+    description: req.body.description,
+    privacy: req.body.privacy,
     owner: req.session.account._id,
   };
 
   try {
-    const removeList = new Playlist(playListData);
     // Finds playlists with
-    const query = { title: `${removeList.title}` };
-    const docs = await Playlist.findOneAndRemove(query).select('title description privacy songs').lean().exec();
+    const docs = await Playlist.findOneAndRemove(playListData).select('title description privacy songs').lean().exec();
 
     return res.json({ playlists: docs });
   } catch (err) {
@@ -57,23 +54,17 @@ const removePlaylist = async (req, res) => {
   }
 };
 
+// Retrieves playlist by title
 const getPlaylistID = async (req, res) => {
   // Stores title in an empty playlist
   const playListData = {
     title: req.body.title,
-    description: '',
-    privacy: '',
-    songs: [],
     owner: req.session.account._id,
   };
 
-  // Searches database by playlist title
   try {
-    const findPlaylist = new Playlist(playListData);
-    // Finds playlists with
-    const query = { title: `${findPlaylist.title}` };
-    const docs = await Playlist.find(query).select('title description privacy songs').lean().exec();
-
+    // Searches db for playlist
+    const docs = await Playlist.find(playListData).select('title description privacy songs').lean().exec();
     return res.json({ playlists: docs });
   } catch (err) {
     console.log(err);
@@ -81,6 +72,7 @@ const getPlaylistID = async (req, res) => {
   }
 };
 
+// Returns all playlists
 const getPlaylists = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
@@ -93,8 +85,46 @@ const getPlaylists = async (req, res) => {
   }
 };
 
-// Removes Playlist from Collection
+// Adds Song to Playlist
+const addSongtoPlaylist = async (req, res) => {
+  // Data validation
+  if (!req.body.title || !req.body.songTitle) {
+    return res.status(400).json({ error: 'A song and playlist title are required' });
+  }
 
+  const playlistData = {
+    title: req.body.title,
+    owner: req.session.account._id,
+  };
+
+  const songData = {
+    songTitle: req.body.songTitle,
+    owner: req.session.account._id,
+  };
+
+  try {
+    // Finds song
+    const song = await Song.find(songData);
+
+    // Finds playlist
+    const playlist = await Playlist.find(playlistData).updateOne(
+      // Pushes song to songs array
+      { $push: { songs: song } },
+    );
+
+    // Adds song to playlists' song array
+    return res.json({ playlists: playlist });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: 'Error adding song' });
+  }
+};
+
+// Retrieves search result from API
+
+// Calls Music API
+
+// Pages
 const makerPage = async (req, res) => res.render('app');
 
 module.exports = {
@@ -103,4 +133,5 @@ module.exports = {
   getPlaylistID,
   makePlaylist,
   removePlaylist,
+  addSongtoPlaylist,
 };

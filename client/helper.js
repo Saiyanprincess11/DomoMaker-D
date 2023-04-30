@@ -85,6 +85,22 @@
     }
   };
 
+  const sendAPIGet = async (data) => {
+    const response = await fetch(
+      `https://api.deezer.com/artist/jcole`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  
+    const result = await response.json();
+    console.log(result); 
+    //document.getElementById('domoMessage').classList.add('hidden');
+  };
+
+
+
   //Hides error pop-up
   const hideError = () => {
     //document.getElementById('pass').classList.remove('is-danger'); 
@@ -102,5 +118,6 @@
     hideData, 
     hidePlaylistData,
     showPlaylistData, 
-    showData, 
+    showData,
+    sendAPIGet,  
   }

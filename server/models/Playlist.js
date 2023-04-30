@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const _ = require('underscore');
+const Song = require('./Song.js');
 
 const setTitle = (title) => _.escape(title).trim();
 const setDescription = (description) => _.escape(description).trim();
@@ -24,12 +25,11 @@ const PlaylistSchema = new mongoose.Schema({
     trim: true,
     set: setPrivacy,
   },
-  songs: {
-    type: Array,
-    trim: true,
-    required: true,
-    maxlength: 100,
-  },
+  songs: [
+    {
+      type: Song.SongSchema,
+    },
+  ],
   owner: {
     type: mongoose.Schema.ObjectId,
     required: true,

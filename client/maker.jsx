@@ -2,9 +2,99 @@ const helper = require('./helper.js');
 const React = require('react'); 
 const ReactDOM = require('react-dom');
 
+//Get Song By ID Form 
+//Test Purposes Only 
+/*const GetSongByIDForm = (props) => {
+    return (
+        <form
+            action="/getSongID"
+            id="getSongIDForm"
+            method="POST"
+            onSubmit={handleSongID}
+        >
+          <label htmlFor="getSong">Get Song: </label>
+          <input id="song-id" type="text" name="song-id" placeholder="Add song" />
+          <input type="submit" value="Get Song ID" className="getSongID" />
+        </form>
+    );
+};
+const handleSongID = (e) => {
+    e.preventDefault(); 
+    const songTitle = e.target.querySelector('#song-id').value.trim().toString(); 
 
-//Get Playlist by name
-const GetPlayListByIDForm = (props) => {
+    if(!songTitle){
+        console.log('All fields are required'); 
+        return false; 
+    }
+
+    helper.sendPost(e.target.action, {songTitle}, loadSongFromID); 
+    return false; 
+}; 
+const handleRemoveSong = (e) => {
+    e.preventDefault(); 
+    const songTitle = e.target.querySelector(".song-title").id; 
+    
+    if(!songTitle){
+        console.log('All fields are required'); 
+        return false; 
+    }
+
+    helper.sendPost(e.target.action, {songTitle}, removeSong); 
+}; 
+const SongResultList = (props) => {
+    if(props.songResults.length === 0){
+        return (
+            <div className="songResultList">
+                <h3 class="songResultList-empty">No Songs Yet!</h3>
+            </div>
+        ); 
+    }
+    const songResultListNodes = props.songResults.map(song => {
+        return(
+            <div key={song._id} className="song">
+                <form 
+                 action="/removeSong"
+                 id="removeSongForm"
+                 method="POST"
+                 onSubmit={handleRemoveSong}
+                >
+                    <h3 class="song-title" id={song.songTitle}>Title: {song.songTitle}</h3>
+                    <h3 class="song-artist">Artist: {song.artist}</h3>
+                    <h3 class="song-album">Album: {song.album}</h3>
+                    <h3 class="song-duration">Duration:{song.duration} </h3>
+                    <h3 class="song-imageURL">Image URL:{song.imageURL} </h3>
+                    <input type='submit' value="X" className="removeSong"></input>
+                </form>
+            </div>
+        ); 
+    });
+
+    return (
+        <div className="songResultList">
+            {songResultListNodes}
+        </div>
+    );
+}; 
+const removeSong = async () => {
+    const response = await fetch('/removeSong');
+    const data = await response.json(); //title to
+    ReactDOM.render(
+        <SongResultList songResults={data.songs}/>,
+        document.getElementById('songResults')
+    );
+    loadSongsFromServer();
+}; 
+const loadSongFromID = async () => {
+    const response = await fetch('/getSongID');
+    const data = await response.json();
+    ReactDOM.render(
+        <SongResultList songResults = {data.songs}/>,
+        document.getElementById('songResults')
+    );
+}; */
+
+//Get Playlist by ID Form
+/*const GetPlayListByIDForm = (props) => {
     return (
         <form
             action="/getPlaylistID"
@@ -14,8 +104,6 @@ const GetPlayListByIDForm = (props) => {
         >
           <label htmlFor="getPlaylist">Get Playlist: </label>
           <input id="playlist-id" type="text" name="playlist-id" placeholder="Playlist ID" />
-          <label htmlFor="getSong">Get Song: </label>
-          <input id="song-id" type="text" name="song-id" placeholder="Add song" />
           <input type="submit" value="Get Playlist ID" className="getPlaylistID" />
         </form>
     );
@@ -23,7 +111,6 @@ const GetPlayListByIDForm = (props) => {
 const handlePlaylistID = (e) => {
     e.preventDefault();
     const title = e.target.querySelector('#playlist-id').value.trim().toString(); 
-    const songID = e.target.querySelector('#song-id'); 
     const description = ""; 
     const privacy = ""; 
 
@@ -35,7 +122,6 @@ const handlePlaylistID = (e) => {
     helper.sendPost(e.target.action, {title, description, privacy}, loadPlaylistFromID); 
     return false;
 };
-
 const handleRemovePlaylist = (e) => {
     e.preventDefault();
     const title = e.target.querySelector(".playlist-title").id; 
@@ -50,8 +136,6 @@ const handleRemovePlaylist = (e) => {
     helper.sendPost(e.target.action, {title, description, privacy}, removePlaylist); 
     return false;
 };
-
-
 const ResultList = (props) => {
     if(props.results.length === 0){
         return (
@@ -72,7 +156,7 @@ const ResultList = (props) => {
                     <h3 class="playlist-title" id={playlist.title}>Title: {playlist.title}</h3>
                     <h3 class="playlist-description">Description: {playlist.description}</h3>
                     <h3 class="playlist-privacy">Privacy Setting: {playlist.privacy}</h3>
-                    <h3 className="playlist-songs">Songs:{playlist.songs} </h3>
+                    <h3 class="playlist-songs">Songs:{playlist.songs} </h3>
                     <input type='submit' value="X" className="removePlaylist"></input>
                 </form>
             </div>
@@ -84,16 +168,8 @@ const ResultList = (props) => {
             {resultListNodes}
         </div>
     );
-};
-const loadPlaylistFromID = async () => {
-    const response = await fetch('/getPlaylistID');
-    const data = await response.json(); //title to
-    ReactDOM.render(
-        <ResultList results={data.playlists}/>,
-        document.getElementById('results')
-    );
-}; 
-const removePlaylist = async () => {
+};*/
+/*const removePlaylist = async () => {
     const response = await fetch('/removePlaylist');
     const data = await response.json(); //title to
     ReactDOM.render(
@@ -102,6 +178,54 @@ const removePlaylist = async () => {
     );
     loadPlaylistsFromServer(); 
 }; 
+
+
+const loadPlaylistFromID = async () => {
+    const response = await fetch('/getPlaylistID');
+    const data = await response.json(); //title to
+    ReactDOM.render(
+        <ResultList results={data.playlists}/>,
+        document.getElementById('results')
+    );
+}; */
+const AddSongToPlaylistForm = (props) => {
+    return (
+        <form
+            action="/addSongToPlaylist"
+            id="addSongToPlaylistForm"
+            method="POST"
+            onSubmit={handleAddSongToPlaylist}
+        >
+          <label htmlFor="getPlaylist">Get Playlist: </label>
+          <input id="playlist-id" type="text" name="song-id" placeholder="Find Playlist" />
+          <label htmlFor="getSong">Get Song: </label>
+          <input id="song-id" type="text" name="song-id" placeholder="Find Song" />
+          <input type="submit" value="Get Song ID" className="getSongID" />
+        </form>
+    );
+};  
+const handleAddSongToPlaylist = (e) => {
+    e.preventDefault(); 
+    const title = e.target.querySelector('#playlist-id').value; 
+    const songTitle = e.target.querySelector('#song-id').value; 
+
+    if(!title || !songTitle){
+        console.log('All fields are required'); 
+        return false; 
+    }
+
+    helper.sendPost(e.target.action, {title, songTitle}, loadUpdatedPlaylist); 
+    return false;
+}; 
+const loadUpdatedPlaylist = async () => {
+    const response = await fetch('/addSongToPlaylist'); 
+    const data = await response.json(); 
+    ReactDOM.render(
+        <PlaylistList playlists = {data.playlists}/>,
+        document.getElementById('playlists')
+    );
+};
+
 
 //Song Form 
 const handleSong = (e) => {
@@ -144,6 +268,7 @@ const SongForm = (props) => {
     );
 };
 const SongList = (props) => {
+    //No songs added 
     if(props.songs.length === 0){
         return(
             <div className="songList">
@@ -155,11 +280,19 @@ const SongList = (props) => {
     const songNodes = props.songs.map(song => {
         return(
             <div key={song._id} className="song">
-                <h3 className="songTitle">Song Title: {song.songTitle} </h3>
-                <h3 className="songArtist">Artist: {song.artist} </h3>
-                <h3 className="songAlbum">Album: {song.album} </h3>
-                <h3 className="songDuration">Duration: {song.duration} </h3>
-                <h3 className="songImageURL">Image URL: {song.imageURL} </h3>
+                <form 
+                 action="/removeSong"
+                 id="removeSongForm"
+                 method="POST"
+                 onSubmit={handleRemoveSong}
+                >
+                    <h3 class="song-title" id={song.songTitle}>Title: {song.songTitle}</h3>
+                    <h3 class="song-artist" id={song.artist}>Artist: {song.artist}</h3>
+                    <h3 class="song-album" id ={song.album}>Album: {song.album}</h3>
+                    <h3 class="song-duration" id={song.duration}>Duration:{song.duration} </h3>
+                    <h3 class="song-imageURL" id={song.imageURL}>Image URL:{song.imageURL} </h3>
+                    <input type='submit' value="X" className="removeSong"></input>
+                </form>
             </div>
         );
     });
@@ -177,7 +310,29 @@ const loadSongsFromServer = async () => {
         <SongList songs = {data.songs} />,
         document.getElementById('songs')
     );
-}
+};
+const removeSong = async () => {
+    const response = await fetch('/removeSong');
+    const data = await response.json();
+    ReactDOM.render(
+        <SongList songs={data.songs}/>,
+        document.getElementById('songs')
+    );
+    loadSongsFromServer();
+}; 
+const handleRemoveSong = (e) => {
+    e.preventDefault();
+    
+    const songTitle = e.target.querySelector('.song-title').id; 
+    const artist = e.target.querySelector('.song-artist').id; 
+    const album = e.target.querySelector('.song-album').id; 
+    const duration = e.target.querySelector('.song-duration').id; 
+    const imageURL = e.target.querySelector('.song-imageURL').id; 
+
+    helper.sendPost(e.target.action, {songTitle, artist, album, duration, imageURL}, removeSong); 
+    return false;
+}; 
+
 
 //Playlist Form 
 //Gets Playlist Data
@@ -231,57 +386,88 @@ const PlaylistList = (props) => {
             </div>
         ); 
     }
+
+    
     const playlistNodes = props.playlists.map(playlist => {
+    
+        if(props.playlists.length === 0){
+            return (
+                <div className="playlistList">
+                    <h3 class="playlist-empty">No Song Added Yet!</h3>
+                </div>
+            ); 
+        }
+
+        //Gets song nodes 
+        const songNodes = playlist.songs.map(song => {
+            return(
+                <li>
+                    <h3 class="song-title" id={song.songTitle}>Title: {song.songTitle}</h3>
+                </li>
+            );
+        });
+
         return(
             <div key={playlist._id} className="playlist">
-                <h3 class="playlist-title">Title: {playlist.title}</h3>
-                <h3 class="playlist-description">Description: {playlist.description}</h3>
-                <h3 class="playlist-privacy">Privacy Setting: {playlist.privacy}</h3>
-                <h3 className="playlist-songs">Songs:{playlist.songs} </h3>
+                <form 
+                 action="/removePlaylist"
+                 id="removePlaylistForm"
+                 method="POST"
+                 onSubmit={handleRemovePlaylist}
+                >
+                    <h3 class="playlist-title" id={playlist.title}>Title: {playlist.title}</h3>
+                    <h3 class="playlist-description" id={playlist.description}>Description: {playlist.description}</h3>
+                    <h3 class="playlist-privacy" id={playlist.privacy}>Privacy Setting: {playlist.privacy}</h3>
+                    <h3 class="playlist-songs">Songs:</h3>
+                    <ol>
+                        {songNodes}
+                    </ol>
+                    <input type='submit' value="X" className="removePlaylist"></input>
+                </form>
             </div>
-           /* 
-            <div class="card has-background-warning playlist my-3" key={playlist._id} style={{width: "40%"}}>
-                <header class="card-header has-background-warning">
-                    <p class="card-header-title has-background-warning is-size-4">
-                        {playlist.title}
-                    </p>
-                    <button 
-                    class="card-header-icon" 
-                    onClick={handleButtons(playlist._id)}
-                    aria-label="more options" 
-                    id="showMorePlaylistBtn">
-                        <span class="icon has-background-warning">
-                                <i class="fa fa-angle-down has-background-warning has-text-black" aria-hidden="true"></i>
-                        </span>
-                    </button>
-
-                    <button class="card-header-icon" aria-label="remove playlist" id="removePlaylist">
-                            <span class="icon has-background-warning">
-                                <i class="fa fa-close has-background-warning has-text-danger" aria-hidden="true"></i>
-                            </span>
-                    </button>
-                </header>
-                <div class="card-content" id={playlist._id}>
-                    <div class="columns has-background-warning">
-                    <div class="column has-background-warning">
-                        <div class="content has-background-warning is-size-5 has-text-black">
-                        <br/>Description: {playlist.description}
-                        <br/>Privacy Setting: {playlist.privacy}
-                        <br/>Songs: 
-                        <ol class="pl-4 has-background-warning" className='playlist-songs'>
-                            
-                        </ol>  
-                        </div>
-                    </div>
-                    </div>
-                    
-                </div>
-                <footer class="card-footer has-background-warning is-justify-content-center py-2" id ={playlist._id}>
-                        <button id="showLessPlaylistBtn" onClick={helper.hidePlaylistData(playlist._id)} class="is-rounded is-info button">Show Less</button>
-                </footer>
-            </div>
-            */
         ); 
+        /* 
+         <div class="card has-background-warning playlist my-3" key={playlist._id} style={{width: "40%"}}>
+             <header class="card-header has-background-warning">
+                 <p class="card-header-title has-background-warning is-size-4">
+                     {playlist.title}
+                 </p>
+                 <button 
+                 class="card-header-icon" 
+                 onClick={handleButtons(playlist._id)}
+                 aria-label="more options" 
+                 id="showMorePlaylistBtn">
+                     <span class="icon has-background-warning">
+                             <i class="fa fa-angle-down has-background-warning has-text-black" aria-hidden="true"></i>
+                     </span>
+                 </button>
+
+                 <button class="card-header-icon" aria-label="remove playlist" id="removePlaylist">
+                         <span class="icon has-background-warning">
+                             <i class="fa fa-close has-background-warning has-text-danger" aria-hidden="true"></i>
+                         </span>
+                 </button>
+             </header>
+             <div class="card-content" id={playlist._id}>
+                 <div class="columns has-background-warning">
+                 <div class="column has-background-warning">
+                     <div class="content has-background-warning is-size-5 has-text-black">
+                     <br/>Description: {playlist.description}
+                     <br/>Privacy Setting: {playlist.privacy}
+                     <br/>Songs: 
+                     <ol class="pl-4 has-background-warning" className='playlist-songs'>
+                         
+                     </ol>  
+                     </div>
+                 </div>
+                 </div>
+                 
+             </div>
+             <footer class="card-footer has-background-warning is-justify-content-center py-2" id ={playlist._id}>
+                     <button id="showLessPlaylistBtn" onClick={helper.hidePlaylistData(playlist._id)} class="is-rounded is-info button">Show Less</button>
+             </footer>
+         </div>
+         */
     });
 
     return (
@@ -300,9 +486,34 @@ const loadPlaylistsFromServer = async () => {
         document.getElementById('playlists')
     );
 };
+const handleRemovePlaylist = (e) => {
+    e.preventDefault();
+    const title = e.target.querySelector(".playlist-title").id; 
+    const description = e.target.querySelector('.playlist-description').id;  
+    const privacy = e.target.querySelector('.playlist-privacy').id;
+
+    if(!title || !description || !privacy){
+        helper.handlePlaylistError('All fields are required'); 
+        return false; 
+    }
+
+    helper.sendPost(e.target.action, {title, description, privacy}, removePlaylist); 
+    return false;
+};
+const removePlaylist = async () => {
+    const response = await fetch('/removePlaylist');
+    const data = await response.json(); //title to
+    ReactDOM.render(
+        <PlaylistList playlists={data.playlists}/>,
+        document.getElementById('playlists')
+    );
+    loadPlaylistsFromServer(); 
+}; 
 
 
-//--- React Components ---
+
+
+//--- UI Components ---
 
 //Navigation Bar 
 const Navbar = (props) => {
@@ -347,7 +558,7 @@ const Navbar = (props) => {
 const SearchBar = (props) => {
     return (
         <div class="field">
-            <p class="control has-icons-righ has-background-black">
+            <p class="control has-icons-right has-background-black">
                 <input class="input is-rounded" type="text" placeholder="Enter a song title"/>
             </p>
         </div>
@@ -367,12 +578,26 @@ const init = () => {
         <SongForm />,
         document.getElementById('addSong')
     ); 
-    
+
+    //Add Song To Playlist Form 
+    ReactDOM.render(
+        <AddSongToPlaylistForm/>,
+        document.getElementById('addToPlaylist')
+    );
+
     //Result Form 
+    /*
     ReactDOM.render(
         <GetPlayListByIDForm />,
         document.getElementById('findPlaylist')
     );
+
+    //Song Resut Form 
+    ReactDOM.render(
+        <GetSongByIDForm />,
+        document.getElementById('findSong')
+    );*/
+
     //Navbar
     ReactDOM.render(
         <Navbar />,
@@ -390,18 +615,24 @@ const init = () => {
         <PlaylistList playlists = {[]} />,
         document.getElementById('playlists') 
     );
-
-    //PlayList Result Found
-    ReactDOM.render(
-        <ResultList results = {[]} />,
-        document.getElementById('results') 
-    ); 
-
+    
     //Song Data 
     ReactDOM.render(
         <SongList songs = {[]} />, 
         document.getElementById('songs')
+    );
+
+    //PlayList Result Found
+    /*ReactDOM.render(
+        <ResultList results = {[]} />,
+        document.getElementById('results') 
     ); 
+
+    //SongResultList Results Found
+    ReactDOM.render(
+        <SongResultList songResults = {[]} />,
+        document.getElementById('songResults')
+    );*/
 
     //Button Event Listeners 
     document.getElementById('showLessBtn').addEventListener('click', helper.hideData); 
@@ -409,8 +640,6 @@ const init = () => {
 
     loadPlaylistsFromServer(); 
     loadSongsFromServer();
-    loadPlaylistFromID();
-    removePlaylist(); 
 }
 
 window.onload = init; 

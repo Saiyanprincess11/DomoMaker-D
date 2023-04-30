@@ -59,3 +59,4 @@ SongSchema.statics.toAPI = (doc) => ({
 
 const SongModel = mongoose.model('Song', SongSchema);
 module.exports = SongModel;
+module.exports.SongSchema = SongSchema;

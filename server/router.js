@@ -8,11 +8,19 @@ const router = (app) => {
   app.get('/getPlaylists', mid.requiresLogin, controllers.Playlist.getPlaylists);
   app.get('/getSongs', mid.requiresLogin, controllers.Song.getSongs);
 
+  app.get('/maker', mid.requiresLogin, controllers.Playlist.makerPage);
+  app.post('/maker', mid.requiresLogin, controllers.Playlist.makePlaylist);
+
+  app.post('/addSong', mid.requiresLogin, controllers.Song.makeSong);
+
   app.get('/removePlaylist', mid.requiresLogin, controllers.Playlist.getPlaylists);
   app.post('/removePlaylist', mid.requiresLogin, controllers.Playlist.removePlaylist);
 
-  app.get('/getPlaylistID', mid.requiresLogin, controllers.Playlist.getPlaylists);
-  app.post('/getPlaylistID', mid.requiresLogin, controllers.Playlist.getPlaylistID);
+  app.get('/removeSong', mid.requiresLogin, controllers.Song.getSongs);
+  app.post('/removeSong', mid.requiresLogin, controllers.Song.removeSong);
+
+  app.get('/addSongToPlaylist', mid.requiresLogin, controllers.Playlist.getPlaylists);
+  app.post('/addSongToPlaylist', mid.requiresLogin, controllers.Playlist.addSongtoPlaylist);
 
   app.get('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
   app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
@@ -20,11 +28,6 @@ const router = (app) => {
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
 
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
-
-  app.get('/maker', mid.requiresLogin, controllers.Playlist.makerPage);
-  app.post('/maker', mid.requiresLogin, controllers.Playlist.makePlaylist);
-
-  app.post('/addSong', mid.requiresLogin, controllers.Song.makeSong);
 
   // app.get('/deletePlaylist', mid.requiresLogin, controllers.Playlist.makerPage);
   // app.post('/deletePlaylist', mid.requiresLogin, controllers.Playlist.deletePlaylist);
