@@ -1,7 +1,6 @@
 const controllers = require('./controllers');
 const mid = require('./middleware');
 
-// URL routing for app
 const router = (app) => {
   // Middleware fires in order and if it passes, moves to the next function
   // If criteria isn't met, loads different page and breaks flow
@@ -44,5 +43,6 @@ const router = (app) => {
 
   // app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
+
 
 module.exports = router;

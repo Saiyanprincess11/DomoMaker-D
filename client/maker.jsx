@@ -1,7 +1,6 @@
 const helper = require('./helper.js'); 
 const React = require('react'); 
 const ReactDOM = require('react-dom');
-const axios = require('axios');
 
 /*const GetPlayListByIDForm = (props) => {
     return (
@@ -136,6 +135,7 @@ const loadUpdatedPlaylist = async () => {
 };
 
 
+
 const SearchSongForm = (props) => {
     return (
         <form
@@ -151,32 +151,91 @@ const SearchSongForm = (props) => {
     );
 };
 
+//POST 
 const handleGetSearchTerm = (e) => {
-    e.preventDefault(); 
-    const searchTerm = e.target.querySelector('#song-title').value; 
 
-    if(!searchTerm){
+    e.preventDefault(); 
+    const term = e.target.querySelector('#song-title').value.trim(); 
+
+    //Prevents null entries
+    if(!term){
         console.log('Enter search term'); 
         false; 
     }
 
-    helper.sendPost(e.target.action, {searchTerm}, loadSearchTermFromServer); 
+    //Sends searchTerm to server 
+    helper.sendPost(e.target.action,{term}, loadSearchTermFromServer); 
     false; 
 }; 
 
+
+//Retrieves search Results from server
+
+//GET
 const loadSearchTermFromServer = async () => {
-    const response = await fetch('/getSearchTerm'); 
-    const data = await response.json(); 
-   console.log(data); 
+    
+    //Retrieve search Result 
+    const response = await fetch('/getSearchTerm', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        //body: JSON.stringify(data),
+      });
+    
+    const data = await response.json();
+    console.log(`Client Data: ${JSON.stringify(data.results)}`); 
+    
+    //helper.sendPost( url, data , loadAPICallFromServer)
+      
+    /*ReactDOM.render(
+        <ResultList results = {data.songs}/>,
+        document.getElementById('results')
+    );*/
+    //send to api
+   
+
+    //helper.sendPost( url, data , loadAPICallFromServer); 
 }; 
 
 
-//Send GET Request to get API
-const callAPI = async () => {
-    const response = await fetch('/callAPI'); 
-    const data = await response.json(); 
-   console.log(data);
+//Holds API Call Results
+const loadAPICallFromServer = (props) => {
+
+}; 
+
+
+const ResultList = (props) => {
+    loadSongsFromServer(); 
+    //No songs added 
+    if(props.results.length === 0){
+        return(
+            <div className="resList">
+                <h3 className="emptyRes">No Songs Yet!</h3>
+            </div>
+        );
+    }
+
+    const resNodes = props.results.map(song => {
+        return(
+            
+            <div key={song._id} className="song">
+                <h3 class="song-title" id={song.songTitle}>Title: {song.songTitle}</h3>
+            <hr></hr>
+            </div>
+        );
+    });
+
+
+    return(
+        <div className="resList">
+            <h3 className="emptyRes">{resNodes}</h3>
+        </div>
+    );
+   
 };
+
+
 
 
 
@@ -464,8 +523,6 @@ const removePlaylist = async () => {
 }; 
 
 
-
-
 //--- UI Components ---
 
 //Navigation Bar 
@@ -506,7 +563,6 @@ const Navbar = (props) => {
       </nav>
     );
 }
-
 //Song Search Bar 
 const SearchBar = (props) => {
     return (
@@ -580,7 +636,6 @@ const init = () => {
 
     loadPlaylistsFromServer(); 
     loadSongsFromServer();
-    //callAPI(); 
 }
 
 window.onload = init; 

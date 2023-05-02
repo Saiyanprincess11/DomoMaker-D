@@ -1,17 +1,11 @@
 const models = require('../models');
-const fetch = require('node-fetch');
 const { Song } = models;
 
 // Creates new song
 const makeSong = async (req, res) => {
   // Makes sure title, artist and duration are required
-  if (!req.body.songTitle || !req.body.artist || !req.body.duration) {
-    return res.status(400).json({ error: 'Song Title, Artist, Duration and Image URL are required' });
-  }
-
-  // If song doesn't have an album
-  if (!req.body.album) {
-    req.body.album = 'N/A';
+  if (!req.body.songTitle || !req.body.artist) {
+    return res.status(400).json({ error: 'Song Title and Artist are required' });
   }
 
   if (!req.body.imageURL) {
@@ -22,8 +16,6 @@ const makeSong = async (req, res) => {
   const songData = {
     songTitle: req.body.songTitle,
     artist: req.body.artist,
-    album: req.body.album,
-    duration: req.body.duration,
     imageURL: req.body.imageURL,
     owner: req.session.account._id,
   };
@@ -34,8 +26,6 @@ const makeSong = async (req, res) => {
     return res.status(201).json({
       songTitle: newSong.songTitle,
       artist: newSong.artist,
-      album: newSong.album,
-      duration: newSong.duration,
       imageURL: newSong.imageURL,
       owner: req.session.account._id,
     });
@@ -53,14 +43,12 @@ const removeSong = async (req, res) => {
   const songData = {
     songTitle: req.body.songTitle,
     artist: req.body.artist,
-    album: req.body.album,
-    duration: req.body.duration,
     imageURL: req.body.imageURL,
     owner: req.session.account._id,
   };
 
   try {
-    const docs = await Song.findOneAndRemove(songData).select('songTitle artist album duration imageURL').lean().exec();
+    const docs = await Song.findOneAndRemove(songData).select('songTitle artist imageURL').lean().exec();
     return res.json({ songs: docs });
   } catch (err) {
     console.log(err);
@@ -79,7 +67,7 @@ const getSongID = async (req, res) => {
   };
 
   try {
-    const docs = await Song.find(songData).select('songTitle artist album duration imageURL').lean().exec();
+    const docs = await Song.find(songData).select('songTitle artist imageURL').lean().exec();
     return res.json({ songs: docs });
   } catch (err) {
     console.log(err);
@@ -91,14 +79,12 @@ const showResults = async (req, res) => {
   const songData = {
     songTitle: req.body.songTitle,
     artist: req.body.artist,
-    album: req.body.album,
-    duration: req.body.duration,
     imageURL: req.body.imageURL,
     owner: req.session.account._id,
   };
 
   try {
-    const docs = await Song.find(songData).select('songTitle artist album duration imageURL').lean().exec();
+    const docs = await Song.find(songData).select('songTitle artist imageURL').lean().exec();
     return res.json({ songs: docs });
   } catch (err) {
     console.log(err);
@@ -110,7 +96,7 @@ const showResults = async (req, res) => {
 const getSongs = async (req, res) => {
   try {
     const query = { owner: req.session.account._id };
-    const docs = await Song.find(query).select('songTitle artist album duration imageURL').lean().exec();
+    const docs = await Song.find(query).select('songTitle artist imageURL').lean().exec();
 
     return res.json({ songs: docs });
   } catch (err) {
@@ -120,63 +106,54 @@ const getSongs = async (req, res) => {
 };
 
 const getSearch = async (req, res) => {
-  if(!req.body.searchTerm){
+  if(!req.body.term){
     return res.status(400).json({ error: 'Search Term required' });
   }
 
+  const songData = {
+    songTitle: req.body.term, 
+    owner: req.session.account._id,
+  }; 
   try{
-    
-  return res.json({ data: req.body.searchTerm}); 
+    return res.status(200).json({ term: songData.songTitle}); 
   }catch(err){
     console.log(err); 
+    return res.status(500).json({error: 'Cant Add Song'})
   }
 };
 
+//Returns Search result of API call
 const showSearchRes = async (req, res) => {
-
-  //Calls API with search term as parameter 
-  const url = `https://shazam.p.rapidapi.com/search?term=${req.body.searchTerm}&locale=en-US&offset=0&limit=1`;
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': '589f295a6fmshba97e09abdb746ap1aad37jsn6062d945de06',
-      'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
-    }
-  };
-
-  //Returns Search Res JSON 
-  try {
-    const response = await fetch(url, options);
-    const result = await response.json();
-    console.log(result.tracks.hits);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-
-const callAPI = async (req, res) => {
-  //Copied from https://rapidapi.com
-  /*const url = 'https://shazam.p.rapidapi.com/search?term=kiss%20the%20rain&locale=en-US&offset=0&limit=5';
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': '589f295a6fmshba97e09abdb746ap1aad37jsn6062d945de06',
-      'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
-    }
-  };
+  //Holds retrieved data 
+  const data = {
+    term: req.body.term, 
+    limit: 3,
+    owner: req.session.account._id,
+  };     
   
-  try {
-    const response = await fetch(url, options);
-    const result = await response.text();
-    console.log(result);
-  } catch (error) {
-    console.error(error);
-  }*/
-};
-const showAPI = (req, res) => {
+  const url = `https://shazam.p.rapidapi.com/search?term=${data.term}&locale=en-US&offset=0&limit=${data.limit}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': '589f295a6fmshba97e09abdb746ap1aad37jsn6062d945de06',
+      'X-RapidAPI-Host': 'shazam.p.rapidapi.com'
+    }
+  };
 
-}; 
+  try {
+      //Retrieves API Data
+      const response = await fetch(url, options);
+      const data = await response.json();
+      const results = data.tracks.hits;
+      //Push Hits to Song 
+      return res.status(200).json({results});
+    } catch (err) {
+      console.log(err);
+      return res.status(500);
+    }
+};
+
+
 
 module.exports = {
   makeSong,
@@ -184,8 +161,6 @@ module.exports = {
   getSongs,
   getSongID,
   showResults,
-  callAPI,
-  showAPI,
   getSearch, 
   showSearchRes, 
 };

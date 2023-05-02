@@ -20,18 +20,6 @@ const SongSchema = new mongoose.Schema({
     trim: true,
     set: setArtist,
   },
-  album: {
-    type: String,
-    required: false,
-    trim: true,
-    set: setAlbum,
-  },
-  duration: {
-    type: String,
-    required: true,
-    trim: true,
-    set: setDuration,
-  },
   imageURL: {
     type: String,
     required: false,
@@ -52,8 +40,6 @@ const SongSchema = new mongoose.Schema({
 SongSchema.statics.toAPI = (doc) => ({
   songTitle: doc.songTitle,
   artist: doc.artist,
-  album: doc.album,
-  duration: doc.duration,
   imageURL: doc.imageURL,
 });
 
